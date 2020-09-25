@@ -7,7 +7,7 @@ defmodule RegatorWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_regator_key",
-    signing_salt: "tGv/xVxh"
+    signing_salt: "p2r6tm/P"
   ]
 
   socket "/socket", RegatorWeb.UserSocket,

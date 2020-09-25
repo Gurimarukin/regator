@@ -13,10 +13,10 @@ config :regator,
 # Configures the endpoint
 config :regator, RegatorWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "Xe1NNA+C8zYZoIsquy6VsDuwKJIB5nwygQfD8pw5oouIpX49a3dLJISLnNL17sGv",
+  secret_key_base: "kN4125M16nz65tl00OKVDHsyKayjqb3PWNkug8pqYOnFiJ+/l1Dk3DD+MOOj7IpY",
   render_errors: [view: RegatorWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Regator.PubSub,
-  live_view: [signing_salt: "YAFZALP4"]
+  live_view: [signing_salt: "P2QZm/P3"]
 
 # Configures Elixir's Logger
 config :logger, :console,
