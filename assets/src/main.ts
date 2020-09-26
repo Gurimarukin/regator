@@ -1,10 +1,5 @@
 import App from './App.svelte'
 
-const app = new App({
-  target: document.getElementById('root'),
-  props: {
-    name: 'world'
-  }
-})
+const app = new App({ target: document.getElementById('root') })
 
 export default app
