@@ -17,6 +17,7 @@ defmodule RegatorWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/app/*path", AppController, :index
   end
 
   # Other scopes may use custom stacks.
