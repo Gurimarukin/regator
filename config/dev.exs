@@ -27,7 +27,7 @@ config :regator, RegatorWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    npm: ["run", "~build", cd: Path.expand("../assets", __DIR__)]
+    # npm: ["run", "~build", cd: Path.expand("../assets", __DIR__)]
   ]
 
 # ## SSL Support
