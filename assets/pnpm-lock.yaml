@@ -3,6 +3,7 @@ devDependencies:
   '@rollup/plugin-node-resolve': 8.4.0_rollup@2.28.2
   '@rollup/plugin-typescript': 6.0.0_9ee20626d8959e9136f27c72c86086ee
   '@type-config/strict': 1.0.2
+  ky: 0.23.0
   rollup: 2.28.2
   rollup-plugin-copy: 3.3.0
   rollup-plugin-svelte: 6.0.1_rollup@2.28.2+svelte@3.28.0
@@ -593,6 +594,12 @@ packages:
       graceful-fs: 4.2.4
     resolution:
       integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
+  /ky/0.23.0:
+    dev: true
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-+t2CbQsLmpN3HeYPBxN+VbZqBOd86njF3cvnueC77pJKVHRjiMI0Ac+pfkB8e17Bw1dGHbMk9hrHst9Bw7ndgw==
   /lines-and-columns/1.1.6:
     dev: true
     resolution:
@@ -1114,6 +1121,7 @@ specifiers:
   '@rollup/plugin-node-resolve': ^8.0.0
   '@rollup/plugin-typescript': ^6.0.0
   '@type-config/strict': ^1.0.2
+  ky: ^0.23.0
   rollup: ^2.3.4
   rollup-plugin-copy: ^3.3.0
   rollup-plugin-svelte: ^6.0.0
