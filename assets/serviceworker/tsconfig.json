@@ -1,0 +1,17 @@
+{
+  "extends": "@type-config/strict",
+
+  "compilerOptions": {
+    "lib": ["es6"],
+    "types": ["types-serviceworker"],
+
+    "declaration": false,
+    "noEmitOnError": false,
+
+    "sourceMap": true,
+    "isolatedModules": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "strictNullChecks": true
+  }
+}

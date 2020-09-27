@@ -17,11 +17,17 @@ config :regator, Regator.Repo,
 # with webpack to recompile .js and .css sources.
 config :regator, RegatorWeb.Endpoint,
   http: [port: 4000],
+  https: [
+    port: 4001,
+    cipher_suite: :strong,
+    certfile: "priv/cert/selfsigned.pem",
+    keyfile: "priv/cert/selfsigned_key.pem"
+  ],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    npm: ["run", "dev", cd: Path.expand("../assets", __DIR__)]
+    npm: ["run", "~build", cd: Path.expand("../assets", __DIR__)]
   ]
 
 # ## SSL Support
@@ -47,6 +53,9 @@ config :regator, RegatorWeb.Endpoint,
 # If desired, both `http:` and `https:` keys can be
 # configured to run both http and https servers on
 # different ports.
+#
+# NOTE: when using Google Chrome, open chrome://flags/#allow-insecure-localhost
+# to enable the use of self-signed certificates on `localhost`.
 
 # Watch static and templates for browser reloading.
 config :regator, RegatorWeb.Endpoint,

@@ -21,4 +21,4 @@
   $: formatted = formatDate(date)
 </script>
 
-<p>{formatted}</p>
+<div>{formatted}</div>

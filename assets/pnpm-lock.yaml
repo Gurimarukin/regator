@@ -2,16 +2,16 @@ devDependencies:
   '@rollup/plugin-commonjs': 14.0.0_rollup@2.28.2
   '@rollup/plugin-node-resolve': 8.4.0_rollup@2.28.2
   '@rollup/plugin-typescript': 6.0.0_9ee20626d8959e9136f27c72c86086ee
-  '@tsconfig/svelte': 1.0.10
+  '@type-config/strict': 1.0.2
   rollup: 2.28.2
   rollup-plugin-copy: 3.3.0
-  rollup-plugin-livereload: 2.0.0
   rollup-plugin-svelte: 6.0.1_rollup@2.28.2+svelte@3.28.0
   rollup-plugin-terser: 7.0.2_rollup@2.28.2
   svelte: 3.28.0
   svelte-check: 1.0.51
   svelte-preprocess: 4.3.2_svelte@3.28.0+typescript@3.9.7
   tslib: 2.0.1
+  types-serviceworker: 0.0.1
   typescript: 3.9.7
 lockfileVersion: 5.1
 packages:
@@ -124,10 +124,10 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==
-  /@tsconfig/svelte/1.0.10:
+  /@type-config/strict/1.0.2:
     dev: true
     resolution:
-      integrity: sha512-EBrpH2iXXfaf/9z81koiDYkp2mlwW2XzFcAqn6qh7VKyP8zBvHHAQzNhY+W9vH5arAjmGAm5g8ElWq6YmXm3ig==
+      integrity: sha512-tqFdxmw5o0jC+SHrZmjdjxgJqMvORR4+f51gnB+Ic6kIqKECUVNSm7HTBqe/mHg4XLFDkQfaVEZa+7a86v15Lw==
   /@types/color-name/1.1.1:
     dev: true
     resolution:
@@ -213,10 +213,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
-  /async-limiter/1.0.1:
-    dev: true
-    resolution:
-      integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
   /balanced-match/1.0.0:
     dev: true
     resolution:
@@ -601,22 +597,6 @@ packages:
     dev: true
     resolution:
       integrity: sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
-  /livereload-js/3.3.1:
-    dev: true
-    resolution:
-      integrity: sha512-CBu1gTEfzVhlOK1WASKAAJ9Qx1fHECTq0SUB67sfxwQssopTyvzqTlgl+c0h9pZ6V+Fzd2rc510ppuNusg9teQ==
-  /livereload/0.9.1:
-    dependencies:
-      chokidar: 3.4.2
-      livereload-js: 3.3.1
-      opts: 2.0.2
-      ws: 6.2.1
-    dev: true
-    engines:
-      node: '>=8.0.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-9g7sua11kkyZNo2hLRCG3LuZZwqexoyEyecSlV8cAsfAVVCZqLzVir6XDqmH0r+Vzgnd5LrdHDMyjtFnJQLAYw==
   /lodash/4.17.20:
     dev: true
     resolution:
@@ -687,10 +667,6 @@ packages:
     dev: true
     resolution:
       integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=
-  /opts/2.0.2:
-    dev: true
-    resolution:
-      integrity: sha512-k41FwbcLnlgnFh69f4qdUfvDQ+5vaSDnVPFI/y5XuhKRq97EnVVneO9F1ESVCdiVu4fCS2L8usX3mU331hB7pg==
   /parent-module/1.0.1:
     dependencies:
       callsites: 3.1.0
@@ -805,14 +781,6 @@ packages:
       node: '>=8.3'
     resolution:
       integrity: sha512-euDjCUSBXZa06nqnwCNADbkAcYDfzwowfZQkto9K/TFhiH+QG7I4PUsEMwM9tDgomGWJc//z7KLW8t+tZwxADA==
-  /rollup-plugin-livereload/2.0.0:
-    dependencies:
-      livereload: 0.9.1
-    dev: true
-    engines:
-      node: '>=8.3'
-    resolution:
-      integrity: sha512-oC/8NqumGYuphkqrfszOHUUIwzKsaHBICw6QRwT5uD07gvePTS+HW+GFwu6f9K8W02CUuTvtIM9AWJrbj4wE1A==
   /rollup-plugin-svelte/6.0.1_rollup@2.28.2+svelte@3.28.0:
     dependencies:
       require-relative: 0.8.7
@@ -1052,6 +1020,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
+  /types-serviceworker/0.0.1:
+    dev: true
+    resolution:
+      integrity: sha512-EKO/SZ3AsHEZsqv+bsdlTCz5k955riOksnYGlG6JhVwNTVsPWj/TScTbiNVZ5+mmX8TcEXF0C8aSxUw0jTDpIw==
   /typescript/3.9.7:
     dev: true
     engines:
@@ -1131,12 +1103,6 @@ packages:
     dev: true
     resolution:
       integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
-  /ws/6.2.1:
-    dependencies:
-      async-limiter: 1.0.1
-    dev: true
-    resolution:
-      integrity: sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
   /yaml/1.10.0:
     dev: true
     engines:
@@ -1147,14 +1113,14 @@ specifiers:
   '@rollup/plugin-commonjs': ^14.0.0
   '@rollup/plugin-node-resolve': ^8.0.0
   '@rollup/plugin-typescript': ^6.0.0
-  '@tsconfig/svelte': ^1.0.0
+  '@type-config/strict': ^1.0.2
   rollup: ^2.3.4
   rollup-plugin-copy: ^3.3.0
-  rollup-plugin-livereload: ^2.0.0
   rollup-plugin-svelte: ^6.0.0
   rollup-plugin-terser: ^7.0.0
   svelte: ^3.0.0
   svelte-check: ^1.0.0
   svelte-preprocess: ^4.0.0
   tslib: ^2.0.0
+  types-serviceworker: ^0.0.1
   typescript: ^3.9.3

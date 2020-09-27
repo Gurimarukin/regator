@@ -1,0 +1,19 @@
+{
+  "extends": "@type-config/strict",
+
+  "compilerOptions": {
+    "lib": ["es6", "dom"],
+    "types": ["svelte"],
+
+    "declaration": false,
+    "noEmitOnError": false,
+    "importsNotUsedAsValues": "error",
+    "skipLibCheck": true,
+
+    "sourceMap": true,
+    "isolatedModules": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "strictNullChecks": true
+  }
+}
