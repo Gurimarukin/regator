@@ -1,5 +1,3 @@
-/// <reference types="types-serviceworker" />
-
 self.addEventListener('install', event => {
   console.log('pouet', event)
   event.waitUntil(
