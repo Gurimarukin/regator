@@ -21,7 +21,7 @@ defmodule RegatorWeb.Endpoint do
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/app/static",
+    at: "/",
     from: :regator,
     gzip: false
 

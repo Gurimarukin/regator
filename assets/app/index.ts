@@ -3,9 +3,11 @@ import App from './App.svelte'
 // register service worker
 
 if ('serviceWorker' in navigator) {
+  console.log("'serviceWorker' in navigator")
   navigator.serviceWorker
-    .register('/app/static/sw.js', { scope: '/app/' })
+    .register('/sw.js', { scope: '/' })
     .then(reg => {
+      console.log('reg:', reg)
       if (reg.installing) {
         console.log('Service worker installing')
       } else if (reg.waiting) {
@@ -16,10 +18,10 @@ if ('serviceWorker' in navigator) {
     })
     .catch(error => {
       // registration failed
-      console.log('Registration failed with ' + error)
+      console.error('Registration failed with ' + error)
     })
 } else {
-  console.warn("'serviceWorker' not in navigator")
+  console.error('navigator.serviceWorker is undefined')
 }
 
 const target = document.getElementById('root')

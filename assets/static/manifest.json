@@ -1,0 +1,15 @@
+{
+  "short_name": "Regator",
+  "name": "Regator",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#066ace",
+  "background_color": "#202020"
+}

@@ -1,1 +1,1 @@
-<%= link "C'est parti mon kiki", to: Routes.app_path(@conn, :index, []) %>
+<div id="root"></div>
