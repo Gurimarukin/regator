@@ -22,11 +22,6 @@ export default [
       file: path.join(privStatic, 'app.js')
     },
     plugins: [
-      copy({
-        watch: true,
-        targets: [{ src: 'static/*', dest: privStatic }]
-      }),
-
       svelte({
         // enable run-time checks when not in production
         dev: !production,
@@ -65,7 +60,14 @@ export default [
 
       // If we're building for production (npm run build
       // instead of npm run dev), minify
-      production && terser()
+      production && terser(),
+
+      copy({
+        watch: true,
+        targets: [{ src: 'static/**/*', dest: privStatic }],
+        copyOnce: false,
+        flatten: false
+      })
     ],
     watch: {
       clearScreen: false

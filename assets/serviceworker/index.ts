@@ -3,13 +3,14 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open('v1').then(cache => {
       return cache.addAll([
-        '/',
-        '/index.html',
-        '/images/icon192.png',
-        '/images/icon512.png',
-        '/global.css',
-        '/app.css',
-        '/app.js'
+        '/app/',
+        '/app/index.html',
+        '/app/images/icon192.png',
+        '/app/images/icon512.png',
+        '/app/manifest.json',
+        '/app/global.css',
+        '/app/app.css',
+        '/app/app.js'
       ])
     })
   )

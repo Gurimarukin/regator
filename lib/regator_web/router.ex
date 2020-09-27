@@ -13,6 +13,18 @@ defmodule RegatorWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", RegatorWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    get "/app/*path", AppController, :index
+  end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", RegatorWeb do
+  #   pipe_through :api
+  # end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -28,15 +40,4 @@ defmodule RegatorWeb.Router do
       live_dashboard "/dashboard", metrics: RegatorWeb.Telemetry
     end
   end
-
-  scope "/", RegatorWeb do
-    pipe_through :browser
-
-    get "/*path", PageController, :index
-  end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", RegatorWeb do
-  #   pipe_through :api
-  # end
 end

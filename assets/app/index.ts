@@ -5,7 +5,7 @@ import App from './App.svelte'
 if ('serviceWorker' in navigator) {
   console.log("'serviceWorker' in navigator")
   navigator.serviceWorker
-    .register('/sw.js', { scope: '/' })
+    .register('/app/sw.js', { scope: '/app/' })
     .then(reg => {
       console.log('reg:', reg)
       if (reg.installing) {
