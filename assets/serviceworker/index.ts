@@ -2,7 +2,15 @@ self.addEventListener('install', event => {
   console.log('install:', event)
   event.waitUntil(
     caches.open('v1').then(cache => {
-      return cache.addAll(['/', '/index.html', '/icon.png', '/global.css', '/app.css', '/app.js'])
+      return cache.addAll([
+        '/',
+        '/index.html',
+        '/images/icon192.png',
+        '/images/icon512.png',
+        '/global.css',
+        '/app.css',
+        '/app.js'
+      ])
     })
   )
 })

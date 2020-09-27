@@ -24,7 +24,7 @@ export default [
     plugins: [
       copy({
         watch: true,
-        targets: [{ src: 'static/**/*', dest: privStatic }]
+        targets: [{ src: 'static/*', dest: privStatic }]
       }),
 
       svelte({

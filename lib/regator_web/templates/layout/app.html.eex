@@ -7,9 +7,13 @@
 
     <title>Regator</title>
 
-    <link rel="icon" type="image/png" href="<%= Routes.static_path(@conn, "/icon.png") %>" />
+    <link rel="icon" type="image/png" href="<%= Routes.static_path(@conn, "/images/icon192.png") %>" />
 
     <link rel="manifest" href="<%= Routes.static_path(@conn, "/manifest.json") %>">
+    <meta name="Description" content="Real time regatta management app.">
+    <meta name="theme-color" content="#066ace"/>
+    <link rel="apple-touch-icon" href="<%= Routes.static_path(@conn, "/images/icon192.png") %>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/global.css") %>"/>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/app.css") %>"/>
@@ -17,6 +21,7 @@
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/app.js") %>"></script>
   </head>
   <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <main role="main">
       <%= @inner_content %>
     </main>
