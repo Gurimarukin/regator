@@ -10,7 +10,7 @@ defmodule RegatorWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json", "html"]
   end
 
   scope "/", RegatorWeb do
@@ -20,10 +20,13 @@ defmodule RegatorWeb.Router do
     get "/app/*path", AppController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", RegatorWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", RegatorWeb do
+    pipe_through :api
+
+    scope "/service-worker" do
+      get "/version", ServiceWorkerController, :version
+    end
+  end
 
   # Enables LiveDashboard only for development
   #

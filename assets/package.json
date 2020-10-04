@@ -13,7 +13,7 @@
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-typescript": "^6.0.0",
     "@type-config/strict": "^1.0.2",
-    "ky": "^0.23.0",
+    "localforage": "^1.9.0",
     "rollup": "^2.3.4",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-svelte": "^6.0.0",

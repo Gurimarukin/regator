@@ -1,28 +1,82 @@
-let version = 'version'
+import * as localforage from 'localforage'
+
+const VERSION = 'version'
+const versionStore = localforage.createInstance({
+  driver: localforage.INDEXEDDB,
+  name: 'Version',
+  storeName: 'versionStore'
+})
 
 self.addEventListener('install', event => {
-  console.log('[ServiceWorker] Installed version:', version)
+  console.log('[ServiceWorker] onInstall')
   event.waitUntil(
-    caches
-      .open(version)
-      .then(cache =>
-        cache.addAll([
-          '/app/',
-          '/app/index.html',
-          '/app/images/icon192.png',
-          '/app/images/icon512.png',
-          '/app/manifest.json',
-          '/app/global.css',
-          '/app/app.css',
-          '/app/app.js'
-        ])
-      )
-      .then(_ => {
-        console.log('[ServiceWorker] Skip waiting on install')
-        return self.skipWaiting()
-      })
+    updateVersion().then(version => {
+      console.log('[ServiceWorker] [onInstall] Installed version:', version)
+      return caches
+        .open(version)
+        .then(cache =>
+          cache.addAll([
+            '/app/',
+            '/app/index.html',
+            '/app/images/icon192.png',
+            '/app/images/icon512.png',
+            '/app/manifest.json',
+            '/app/global.css',
+            '/app/app.css',
+            '/app/app.js'
+          ])
+        )
+        .then(_ => {
+          console.log('[ServiceWorker] [onInstall] Skip waiting on install')
+          return self.skipWaiting()
+        })
+    })
   )
 })
+
+self.addEventListener('activate', event => {
+  console.log('[ServiceWorker] [onActivate]')
+  event.waitUntil(updateCache())
+})
+
+self.addEventListener('fetch', event => {
+  if (event.request.method === 'POST' && event.request.url.endsWith('/app/update')) {
+    event.respondWith(
+      updateVersion()
+        .catch(_ => getVersion())
+        .then(version =>
+          updateCache()
+            .catch(_ => {})
+            .then(_ => new Response(version, { headers: { 'content-type': 'text/plain' } }))
+        )
+    )
+  } else {
+    event.respondWith(
+      caches
+        .match(event.request)
+        .then(response => (response !== undefined ? response : fetch(event.request)))
+    )
+  }
+})
+
+const getVersion = (): Promise<string | null> =>
+  versionStore.getItem<string>(VERSION).then(_ => {
+    console.log('[ServiceWorker] getVersion:', _)
+    return _
+  })
+const setVersion = (version: string): Promise<string> =>
+  versionStore.setItem(VERSION, version).then(_ => {
+    console.log('[ServiceWorker] setVersion:', _)
+    return _
+  })
+
+const updateVersion = (): Promise<string> =>
+  fetch('/api/service-worker/version')
+    .then(response => response.text())
+    .then(newVersion => {
+      console.log('[ServiceWorker] fetchVersion, newVersion:', newVersion)
+      return setVersion(newVersion)
+    })
 
 const updateCache = () =>
   // Just for debugging, list all controlled clients.
@@ -33,61 +87,27 @@ const updateCache = () =>
       console.log('[ServiceWorker] Matching clients:', urls.join(', '))
     })
     // Delete old cache entries that don’t match the current version.
-    .then(_ => caches.keys())
-    .then(cacheNames =>
-      Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== version) {
-            console.log('[ServiceWorker] Deleting old cache:', cacheName)
-            return caches.delete(cacheName)
-          }
-          return undefined
-        })
-      )
-    )
-    .then(updateVersion)
-    // claim() sets this worker as the active worker for all clients that match the workers
-    // scope and triggers an oncontrollerchange event for the clients.
-    .then(_ => {
-      console.log('[ServiceWorker] Claiming clients for version', version)
-      return self.clients.claim()
-    })
-
-const updateVersion = (): Promise<void> =>
-  // fetch('/api/serviceworker/version')
-  //   .then(response => response.text())
-  Promise.resolve(`v${Date.now()}`).then(newVersion => {
-    console.log('[ServiceWorker] fetchVersion, newVersion:', newVersion)
-    version = newVersion
-  })
-
-self.addEventListener('activate', event => event.waitUntil(updateCache()))
-
-self.addEventListener('fetch', event => {
-  if (event.request.method === 'GET' && event.request.url.includes('/app/update')) {
-    event.respondWith(
-      updateCache().then(_ => new Response(version, { headers: { 'content-type': 'text/plain' } }))
-    )
-  } else {
-    event.respondWith(
-      caches.match(event.request).then(response => {
-        // caches.match() always resolves
-        // but in case of success response will have value
-        if (response !== undefined) {
-          return response
-        } else {
-          return fetch(event.request).then((response: Response) => {
-            // response may be used only once
-            // we need to save clone to put one copy in cache
-            // and serve second one
-            let responseClone = response.clone()
-            caches.open(version).then(cache => cache.put(event.request, responseClone))
-            return response
-          })
-        }
+    .then(_ =>
+      Promise.all([getVersion(), caches.keys()]).then(([currentVersion, cacheNames]) => {
+        console.log('[ServiceWorker] currentVersion:', currentVersion)
+        return (
+          Promise.all(
+            cacheNames.map(cacheName => {
+              if (cacheName !== currentVersion) {
+                console.log('[ServiceWorker] Deleting old cache:', cacheName)
+                return caches.delete(cacheName)
+              }
+              return undefined
+            })
+          )
+            // claim() sets this worker as the active worker for all clients that match the workers
+            // scope and triggers an oncontrollerchange event for the clients.
+            .then(_ => {
+              console.log('[ServiceWorker] Claiming clients for version', currentVersion)
+              return self.clients.claim()
+            })
+        )
       })
     )
-  }
-})
 
 export default null

@@ -1,9 +1,7 @@
-import ky from 'ky'
-
 export const registerServiceWorker = () => {
-  console.log('registerServiceWorker')
   if ('serviceWorker' in navigator) {
-    console.log('navigator.serviceWorker.controller =', navigator.serviceWorker.controller)
+    console.log('navigator.serviceWorker.controller:', navigator.serviceWorker.controller)
+
     if (navigator.serviceWorker.controller !== null) {
       const url = navigator.serviceWorker.controller.scriptURL
       console.log('serviceWorker.controller:', url)
@@ -11,12 +9,6 @@ export const registerServiceWorker = () => {
     } else {
       register()
     }
-
-    navigator.serviceWorker.addEventListener('controllerchange', function () {
-      const url = navigator.serviceWorker.controller?.scriptURL
-      console.log('serviceWorker.onControllerchange', url)
-      fetchUpdate()
-    })
   } else {
     console.error('navigator.serviceWorker is undefined')
   }
@@ -38,7 +30,7 @@ const register = () => {
 }
 
 const fetchUpdate = () => {
-  ky.get('./update')
-    .text()
-    .then(version => console.log('fetchUpdate, version:', version))
+  fetch('update', { method: 'POST' })
+    .then(response => response.text())
+    .then(updated => console.log('fetchUpdate:', updated))
 }

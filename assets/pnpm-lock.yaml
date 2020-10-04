@@ -3,7 +3,7 @@ devDependencies:
   '@rollup/plugin-node-resolve': 8.4.0_rollup@2.28.2
   '@rollup/plugin-typescript': 6.0.0_9ee20626d8959e9136f27c72c86086ee
   '@type-config/strict': 1.0.2
-  ky: 0.23.0
+  localforage: 1.9.0
   rollup: 2.28.2
   rollup-plugin-copy: 3.3.0
   rollup-plugin-svelte: 6.0.1_rollup@2.28.2+svelte@3.28.0
@@ -498,6 +498,10 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
+  /immediate/3.0.6:
+    dev: true
+    resolution:
+      integrity: sha1-nbHb0Pr43m++D13V5Wu2BigN5ps=
   /import-fresh/3.2.1:
     dependencies:
       parent-module: 1.0.1
@@ -594,16 +598,22 @@ packages:
       graceful-fs: 4.2.4
     resolution:
       integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
-  /ky/0.23.0:
+  /lie/3.1.1:
+    dependencies:
+      immediate: 3.0.6
     dev: true
-    engines:
-      node: '>=10'
     resolution:
-      integrity: sha512-+t2CbQsLmpN3HeYPBxN+VbZqBOd86njF3cvnueC77pJKVHRjiMI0Ac+pfkB8e17Bw1dGHbMk9hrHst9Bw7ndgw==
+      integrity: sha1-mkNrLMd0bKWd56QfpGmz77dr2H4=
   /lines-and-columns/1.1.6:
     dev: true
     resolution:
       integrity: sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
+  /localforage/1.9.0:
+    dependencies:
+      lie: 3.1.1
+    dev: true
+    resolution:
+      integrity: sha512-rR1oyNrKulpe+VM9cYmcFn6tsHuokyVHFaCM3+osEmxaHTbEk8oQu6eGDfS6DQLWi/N67XRmB8ECG37OES368g==
   /lodash/4.17.20:
     dev: true
     resolution:
@@ -1121,7 +1131,7 @@ specifiers:
   '@rollup/plugin-node-resolve': ^8.0.0
   '@rollup/plugin-typescript': ^6.0.0
   '@type-config/strict': ^1.0.2
-  ky: ^0.23.0
+  localforage: ^1.9.0
   rollup: ^2.3.4
   rollup-plugin-copy: ^3.3.0
   rollup-plugin-svelte: ^6.0.0
