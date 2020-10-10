@@ -1,6 +1,6 @@
 import { config } from '../shared/config'
 
-export const registerServiceWorker = () => {
+export const registerServiceWorker = (): void => {
   if ('serviceWorker' in navigator) {
     console.log('navigator.serviceWorker.controller:', navigator.serviceWorker.controller)
 
@@ -16,24 +16,24 @@ export const registerServiceWorker = () => {
   }
 }
 
-const register = () => {
+function register() {
   navigator.serviceWorker
     .register('/app/sw.js', { scope: '/app/' })
     .then(reg => {
-      if (reg.installing) {
+      if (reg.installing !== null) {
         console.log('Service worker installing')
-      } else if (reg.waiting) {
+      } else if (reg.waiting !== null) {
         console.log('Service worker installed')
-      } else if (reg.active) {
+      } else if (reg.active !== null) {
         console.log('Service worker active')
       }
     })
     .catch(error => console.error('Registration failed with ' + error))
 }
 
-const fetchUpdate = () => {
+function fetchUpdate() {
   fetch(config.serviceWorker.routes.update.path, {
-    method: config.serviceWorker.routes.update.method
+    method: config.serviceWorker.routes.update.method,
   })
     .then(response => response.text())
     .then(updated => console.log('fetchUpdate:', updated))

@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import copy from 'rollup-plugin-copy'
+import nodePolyfills from 'rollup-plugin-node-polyfills'
 import svelte from 'rollup-plugin-svelte'
 import { terser } from 'rollup-plugin-terser'
 import sveltePreprocess from 'svelte-preprocess'
@@ -22,6 +23,8 @@ export default [
       file: path.join(privStatic, 'app.js')
     },
     plugins: [
+      nodePolyfills(),
+
       svelte({
         // enable run-time checks when not in production
         dev: !production,

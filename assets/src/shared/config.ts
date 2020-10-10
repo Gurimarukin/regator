@@ -3,8 +3,8 @@ export const config = {
     routes: {
       update: {
         path: '/app/update',
-        method: 'POST'
-      }
-    }
-  }
+        method: 'POST',
+      },
+    },
+  },
 }

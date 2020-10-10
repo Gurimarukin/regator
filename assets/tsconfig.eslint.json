@@ -1,0 +1,18 @@
+{
+  "extends": "@type-config/strict",
+
+  "compilerOptions": {
+    "lib": ["es6", "dom"],
+
+    "declaration": false,
+    "noEmitOnError": false,
+
+    "sourceMap": true,
+    "isolatedModules": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "strictNullChecks": true
+  },
+
+  "include": ["src/**/*.ts"]
+}
