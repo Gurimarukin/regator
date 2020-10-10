@@ -1,11 +1,11 @@
-import * as _Array from 'fp-ts/Array'
 import * as _Either from 'fp-ts/Either'
 import * as _Fn from 'fp-ts/function'
 import type * as _IO from 'fp-ts/IO'
 import * as _IOEither from 'fp-ts/IOEither'
-import * as _NonEmptyArray from 'fp-ts/NonEmptyArray'
-import * as _Option from 'fp-ts/Option'
+import * as _Maybe from 'fp-ts/Option'
 import { pipe as _pipe } from 'fp-ts/pipeable'
+import * as _List from 'fp-ts/ReadonlyArray'
+import * as _NonEmptyArray from 'fp-ts/ReadonlyNonEmptyArray'
 import * as _Record from 'fp-ts/Record'
 import * as _Task from 'fp-ts/Task'
 import * as _TaskEither from 'fp-ts/TaskEither'
@@ -13,7 +13,7 @@ import * as _TaskEither from 'fp-ts/TaskEither'
 export const unknownToError = (e: unknown): Error =>
   e instanceof Error ? e : new Error('unknown error')
 
-export const inspect = (...label: unknown[]) => <A>(a: A): A => {
+export const inspect = (...label: readonly unknown[]) => <A>(a: A): A => {
   console.log(...label, a)
   return a
 }
@@ -21,7 +21,8 @@ export const inspect = (...label: unknown[]) => <A>(a: A): A => {
 /**
  * ???
  */
-export const todo = (..._: unknown[]): never => {
+export const todo = (..._: readonly unknown[]): never => {
+  // eslint-disable-next-line functional/no-throw-statement
   throw Error('missing implementation')
 }
 
@@ -29,18 +30,18 @@ export const todo = (..._: unknown[]): never => {
  * Array
  */
 export const List = {
-  ..._Array,
+  ..._List,
 
-  concat: <A>(a: A[], b: A[]): A[] => [...a, ...b],
+  concat: <A>(a: readonly A[], b: readonly A[]): readonly A[] => [...a, ...b],
 
-  exists: <A>(predicate: _Fn.Predicate<A>) => (l: A[]): boolean =>
-    _pipe(l, List.findIndex(predicate), _Option.isSome),
+  exists: <A>(predicate: _Fn.Predicate<A>) => (l: readonly A[]): boolean =>
+    _pipe(l, List.findIndex(predicate), _Maybe.isSome),
 }
 
 /**
  * NonEmptyArray
  */
-export type NonEmptyArray<A> = _NonEmptyArray.NonEmptyArray<A>
+export type NonEmptyArray<A> = _NonEmptyArray.ReadonlyNonEmptyArray<A>
 export const NonEmptyArray = _NonEmptyArray
 
 /**
@@ -55,7 +56,7 @@ export const Dict = {
   ): Dict<A> =>
     _pipe(
       _Record.lookup(k, dict),
-      _Option.fold(
+      _Maybe.fold(
         () => _pipe(dict, _Record.insertAt(k, a())),
         a => _pipe(dict, _Record.insertAt(k, update(a))),
       ),
@@ -65,14 +66,14 @@ export const Dict = {
 /**
  * Option
  */
-export type Maybe<A> = _Option.Option<A>
+export type Maybe<A> = _Maybe.Option<A>
 export const Maybe = {
-  ..._Option,
+  ..._Maybe,
 
-  toArray: <A>(opt: Maybe<A>): A[] =>
+  toArray: <A>(opt: Maybe<A>): readonly A[] =>
     _pipe(
       opt,
-      _Option.fold(
+      _Maybe.fold(
         () => [],
         a => [a],
       ),
@@ -102,6 +103,7 @@ export const Try = {
     _pipe(
       t,
       Either.getOrElse<Error, A>(e => {
+        // eslint-disable-next-line functional/no-throw-statement
         throw e
       }),
     ),
@@ -132,11 +134,11 @@ export const Future = {
 
   unit: _TaskEither.right<Error, void>(undefined),
 
-  parallel: <A>(futures: Future<A>[]): Future<A[]> =>
-    List.array.sequence(Future.taskEither)(futures),
+  parallel: <A>(futures: readonly Future<A>[]): Future<readonly A[]> =>
+    List.readonlyArray.sequence(Future.taskEither)(futures),
 
-  sequence: <A>(futures: Future<A>[]): Future<A[]> =>
-    List.array.sequence(Future.taskEitherSeq)(futures),
+  sequence: <A>(futures: readonly Future<A>[]): Future<readonly A[]> =>
+    List.readonlyArray.sequence(Future.taskEitherSeq)(futures),
 
   recover: <A>(onError: (e: Error) => Future<A>): ((future: Future<A>) => Future<A>) =>
     _Task.chain(
@@ -160,10 +162,7 @@ export const IO = {
 
   unit: _IOEither.right(undefined),
 
-  runFuture: <A>(f: Future<A>): IO<void> =>
-    IO.apply(() => {
-      Future.runUnsafe(f)
-    }),
+  runFuture: <A>(f: Future<A>): IO<Promise<A>> => IO.apply(() => Future.runUnsafe(f)),
 
   runUnsafe: <A>(io: IO<A>): A => Try.get(io()),
 }

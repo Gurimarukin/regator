@@ -4,24 +4,24 @@ import type * as C from 'io-ts/Codec'
 import { Dict, Fn, Maybe, pipe } from '../shared/fp'
 import { RaceId } from './models/RaceId'
 
-interface Home {
-  _tag: 'Home'
+type Home = {
+  readonly _tag: 'Home'
 }
 const home: Home = { _tag: 'Home' }
 
-interface Create {
-  _tag: 'Create'
+type Create = {
+  readonly _tag: 'Create'
 }
 const create: Create = { _tag: 'Create' }
 
-interface Race {
-  _tag: 'Race'
-  raceId: RaceId
+type Race = {
+  readonly _tag: 'Race'
+  readonly raceId: RaceId
 }
 const race = (args: Omit<Race, '_tag'>): Race => ({ _tag: 'Race', ...args })
 
-interface NotFound {
-  _tag: 'NotFound'
+type NotFound = {
+  readonly _tag: 'NotFound'
 }
 const notFound: NotFound = { _tag: 'NotFound' }
 
@@ -63,19 +63,19 @@ export { Location }
 function codec<K extends string, A>(
   k: K,
   codec: C.Codec<unknown, string, A>,
-): Match<{ [_ in K]: A }> {
+): Match<{ readonly [_ in K]: A }> {
   return new Match(
-    new Parser(r => {
-      if (r.parts.length === 0) {
-        return Maybe.none
-      } else {
-        const head = r.parts[0]
-        const tail = r.parts.slice(1)
-        return Maybe.option.map(Maybe.fromEither(codec.decode(head)), a =>
-          Fn.tuple(Dict.singleton(k, a), new Route(tail, r.query)),
-        )
-      }
-    }),
+    new Parser(r =>
+      r.parts.length === 0
+        ? Maybe.none
+        : (() => {
+            const head = r.parts[0]
+            const tail = r.parts.slice(1)
+            return Maybe.option.map(Maybe.fromEither(codec.decode(head)), a =>
+              Fn.tuple(Dict.singleton(k, a), new Route(tail, r.query)),
+            )
+          })(),
+    ),
     new Formatter((r, o) => new Route(r.parts.concat(codec.encode(o[k])), r.query)),
   )
 }

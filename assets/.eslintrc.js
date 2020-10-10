@@ -3,15 +3,18 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.eslint.json',
   },
+  plugins: ['functional'],
   extends: [
     'plugin:@typescript-eslint/recommended',
+    'plugin:functional/external-recommended',
+    'plugin:functional/recommended',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   reportUnusedDisableDirectives: true,
   rules: {
     '@typescript-eslint/array-type': ['warn', { default: 'array', readonly: 'array' }],
-    '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
+    '@typescript-eslint/consistent-type-definitions': ['warn', 'type'],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
@@ -44,6 +47,15 @@ module.exports = {
         functions: 'always-multiline',
       },
     ],
+    'functional/functional-parameters': [
+      'error',
+      {
+        allowRestParameter: true,
+        enforceParameterCount: false,
+      },
+    ],
+    'functional/no-expression-statement': ['error', { ignorePattern: ['^console\\.'] }],
+    'functional/no-promise-reject': 'error',
     'max-len': [
       'warn',
       {
