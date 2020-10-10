@@ -1,10 +1,15 @@
 import { Location, To, createBrowserHistory } from 'history'
 import { readable } from 'svelte/store'
 
-interface HistoryStore {
-  location: Location<State>
-  navigate: (to: To, options?: { replace?: boolean; state?: State }) => void
-  go: (delta: number) => void
+type HistoryStore = {
+  readonly location: Location<State>
+  readonly navigate: (
+    to: To,
+    options?: { readonly replace?: boolean; readonly state?: State },
+    // eslint-disable-next-line functional/no-return-void
+  ) => void
+  // eslint-disable-next-line functional/no-return-void
+  readonly go: (delta: number) => void
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types

@@ -1,9 +1,14 @@
+import { IO, pipe } from '../shared/fp'
 import App from './App.svelte'
 import { registerServiceWorker } from './registerServiceWorker'
 
-registerServiceWorker()
-
-const target = document.getElementById('root')
-const app = target === null ? null : new App({ target })
+const app = pipe(
+  IO.runFuture(registerServiceWorker()),
+  IO.map(_ => {
+    const target = document.getElementById('root')
+    return target === null ? null : new App({ target })
+  }),
+  IO.runUnsafe,
+)
 
 export default app

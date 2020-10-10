@@ -1,40 +1,44 @@
 import { config } from '../shared/config'
+import { Future, pipe } from '../shared/fp'
 
-export const registerServiceWorker = (): void => {
-  if ('serviceWorker' in navigator) {
-    console.log('navigator.serviceWorker.controller:', navigator.serviceWorker.controller)
+export const registerServiceWorker = (): Future<void> =>
+  'serviceWorker' in navigator
+    ? (() => {
+        console.log('navigator.serviceWorker.controller:', navigator.serviceWorker.controller)
+        return navigator.serviceWorker.controller !== null
+          ? (() => {
+              const url = navigator.serviceWorker.controller.scriptURL
+              console.log('serviceWorker.controller:', url)
+              return fetchUpdate()
+            })()
+          : register()
+      })()
+    : Future.right(console.error('navigator.serviceWorker is undefined'))
 
-    if (navigator.serviceWorker.controller !== null) {
-      const url = navigator.serviceWorker.controller.scriptURL
-      console.log('serviceWorker.controller:', url)
-      fetchUpdate()
-    } else {
-      register()
-    }
-  } else {
-    console.error('navigator.serviceWorker is undefined')
-  }
+function register(): Future<void> {
+  return pipe(
+    Future.apply(() => navigator.serviceWorker.register('/app/sw.js', { scope: '/app/' })),
+    Future.map(reg =>
+      reg.installing !== null
+        ? console.log('Service worker installing')
+        : reg.waiting !== null
+        ? console.log('Service worker installed')
+        : reg.active !== null
+        ? console.log('Service worker active')
+        : undefined,
+    ),
+    Future.recover(error => Future.right(console.error('Registration failed with ' + error))),
+  )
 }
 
-function register() {
-  navigator.serviceWorker
-    .register('/app/sw.js', { scope: '/app/' })
-    .then(reg => {
-      if (reg.installing !== null) {
-        console.log('Service worker installing')
-      } else if (reg.waiting !== null) {
-        console.log('Service worker installed')
-      } else if (reg.active !== null) {
-        console.log('Service worker active')
-      }
-    })
-    .catch(error => console.error('Registration failed with ' + error))
-}
-
-function fetchUpdate() {
-  fetch(config.serviceWorker.routes.update.path, {
-    method: config.serviceWorker.routes.update.method,
-  })
-    .then(response => response.text())
-    .then(updated => console.log('fetchUpdate:', updated))
+function fetchUpdate(): Future<void> {
+  return pipe(
+    Future.apply(() =>
+      fetch(config.serviceWorker.routes.update.path, {
+        method: config.serviceWorker.routes.update.method,
+      }),
+    ),
+    Future.chain(response => Future.apply(() => response.text())),
+    Future.map(updated => console.log('fetchUpdate:', updated)),
+  )
 }
