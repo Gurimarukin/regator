@@ -1,3 +1,5 @@
+import { config } from '../shared/config'
+
 export const registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {
     console.log('navigator.serviceWorker.controller:', navigator.serviceWorker.controller)
@@ -30,7 +32,9 @@ const register = () => {
 }
 
 const fetchUpdate = () => {
-  fetch('update', { method: 'POST' })
+  fetch(config.serviceWorker.routes.update.path, {
+    method: config.serviceWorker.routes.update.method
+  })
     .then(response => response.text())
     .then(updated => console.log('fetchUpdate:', updated))
 }

@@ -15,5 +15,7 @@
     "noUnusedParameters": false,
     "noUnusedLocals": false,
     "strictNullChecks": true
-  }
+  },
+
+  "include": ["src/app/**/*.ts", "src/shared/**/*.ts"]
 }

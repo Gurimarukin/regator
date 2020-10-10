@@ -13,5 +13,7 @@
     "noUnusedParameters": false,
     "noUnusedLocals": false,
     "strictNullChecks": true
-  }
+  },
+
+  "include": ["src/serviceworker/**/*.ts", "src/shared/**/*.ts"]
 }

@@ -14,7 +14,7 @@ const privStatic = path.resolve(__dirname, '../priv/static')
 
 export default [
   {
-    input: path.resolve(__dirname, 'app/index.ts'),
+    input: path.resolve(__dirname, 'src/app/index.ts'),
     output: {
       sourcemap: !production,
       format: 'iife',
@@ -45,7 +45,7 @@ export default [
       commonjs(),
       typescript({
         watch: true,
-        tsconfig: path.resolve(__dirname, 'app/tsconfig.json'),
+        tsconfig: path.resolve(__dirname, 'tsconfig.app.json'),
         sourceMap: !production,
         inlineSources: !production
       }),
@@ -74,7 +74,7 @@ export default [
     }
   },
   {
-    input: path.resolve(__dirname, 'serviceworker/index.ts'),
+    input: path.resolve(__dirname, 'src/serviceworker/index.ts'),
     output: {
       sourcemap: !production,
       format: 'iife',
@@ -86,7 +86,7 @@ export default [
       commonjs(),
       typescript({
         watch: true,
-        tsconfig: path.resolve(__dirname, 'serviceworker/tsconfig.json'),
+        tsconfig: path.resolve(__dirname, 'tsconfig.serviceworker.json'),
         sourceMap: !production,
         inlineSources: !production
       }),

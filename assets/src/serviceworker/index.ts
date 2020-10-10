@@ -1,5 +1,7 @@
 import * as localforage from 'localforage'
 
+import { config } from '../shared/config'
+
 const VERSION = 'version'
 const versionStore = localforage.createInstance({
   driver: localforage.INDEXEDDB,
@@ -40,7 +42,10 @@ self.addEventListener('activate', event => {
 })
 
 self.addEventListener('fetch', event => {
-  if (event.request.method === 'POST' && event.request.url.endsWith('/app/update')) {
+  if (
+    event.request.method === config.serviceWorker.routes.update.method &&
+    event.request.url.endsWith(config.serviceWorker.routes.update.path)
+  ) {
     event.respondWith(
       updateVersion()
         .catch(_ => getVersion())

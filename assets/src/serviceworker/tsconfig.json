@@ -1,0 +1,4 @@
+{
+  "extends": "../../tsconfig.serviceworker.json",
+  "include": ["./**/*.ts"]
+}
